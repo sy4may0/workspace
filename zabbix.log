@@ -1,0 +1,48 @@
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ date      #開始日時確認
+Mon  5 Feb 11:36:03 GMT 2018
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ python api_call.py trigger.get.json trigger.get   #現在発生中の障害を確認
+{'jsonrpc': '2.0', 'result': [], 'id': 1}                                                   #発生している障害なし
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ python api_call.py disable.action.json action.update      #メール通知アクションを無効化
+{'jsonrpc': '2.0', 'result': {'actionids': ['3']}, 'id': 1}
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ python api_call.py trigger.get.json trigger.get    #現在発生中の障害を確認
+{'jsonrpc': '2.0', 'result': [{'triggerid': '13557', 'description': 'Test Disaster'}], 'id': 1}         #Test Disasterという障害が発生中
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ python api_call.py enable.action.json action.update       #メール通知アクションを有効化
+{'jsonrpc': '2.0', 'result': {'actionids': ['3']}, 'id': 1}
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ python api_call.py trigger.get.json trigger.get    #現在発生中の障害を確認
+{'jsonrpc': '2.0', 'result': [{'triggerid': '13557', 'description': 'Test Disaster'}], 'id': 1}         #Test Disasterという障害が発生中
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ date      #終了日時確認
+Mon  5 Feb 11:37:58 GMT 2018
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ tail /var/log/mail.log  #メールログ確認。11:36:03 - 11:37:58の間、メール通知は無し。
+Feb  5 11:24:47 miko postfix/smtpd[30568]: disconnect from unknown[192.168.29.27] helo=1 mail=1 rcpt=1 data=1 quit=1 commands=5
+Feb  5 11:24:47 miko postfix/local[30573]: D45C346DA4: to=<root@localhost.localdomain>, relay=local, delay=0.06, delays=0.06/0/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Feb  5 11:24:47 miko postfix/qmgr[30435]: D45C346DA4: removed
+Feb  5 11:24:47 miko postfix/smtpd[30568]: connect from unknown[192.168.29.27]
+Feb  5 11:24:47 miko postfix/smtpd[30568]: E70E346DA4: client=unknown[192.168.29.27]
+Feb  5 11:24:47 miko postfix/cleanup[30572]: E70E346DA4: message-id=<>
+Feb  5 11:24:47 miko postfix/qmgr[30435]: E70E346DA4: from=<zabbix@localhost.localdomain>, size=844, nrcpt=1 (queue active)
+Feb  5 11:24:47 miko postfix/smtpd[30568]: disconnect from unknown[192.168.29.27] helo=1 mail=1 rcpt=1 data=1 quit=1 commands=5
+Feb  5 11:24:47 miko postfix/local[30573]: E70E346DA4: to=<root@localhost.localdomain>, relay=local, delay=0.05, delays=0.05/0/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Feb  5 11:24:47 miko postfix/qmgr[30435]: E70E346DA4: removed
+zbx_test_user@godzilla:~/workstation/zabbix_api_test$ 
+
